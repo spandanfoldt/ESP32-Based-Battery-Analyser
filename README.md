@@ -55,7 +55,7 @@ An INA219 sensor is used for voltage and current measurement, while a DS18B20 te
 
 | INA219 Pin | ESP32 Connection |
 |---|---|
-| VCC | 3.3V |
+| VCC | 5V |
 | GND | GND |
 | SDA | GPIO 21 |
 | SCL | GPIO 22 |
