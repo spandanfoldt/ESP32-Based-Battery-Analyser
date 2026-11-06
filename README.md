@@ -106,63 +106,58 @@ The system operates through the following stages:
 
 The discharged capacity is calculated by integrating the measured discharge current over time.
 
-\[
-Q_{\text{discharged}} =
-\frac{1}{3600}\int_0^t I(\tau)\,d\tau
-\]
+$$
+Q_{\text{discharged}} = \frac{1}{3600}\int_0^t I(\tau)\,d\tau
+$$
 
 For discrete measurements:
 
-\[
-Q_{\text{discharged}} =
-\sum_{i=1}^{n}
-\frac{I_i \times \Delta t_i}{3600}
-\]
+$$
+Q_{\text{discharged}} = \sum_{i=1}^{n} \frac{I_i \times \Delta t_i}{3600}
+$$
 
 Where:
-- \(I_i\) = Measured discharge current in mA
-- \(\Delta t_i\) = Time interval between measurements in seconds
-- \(Q_{\text{discharged}}\) = Discharged capacity in mAh
+
+- $I_i$ = Measured discharge current in mA
+- $\Delta t_i$ = Time interval between measurements in seconds
+- $Q_{\text{discharged}}$ = Discharged capacity in mAh
 
 ### B. Remaining Capacity
 
 The estimated remaining capacity is calculated by subtracting the discharged capacity from the rated battery capacity.
 
-\[
-Q_{\text{remaining}} =
-Q_{\text{rated}} - Q_{\text{discharged}}
-\]
+$$
+Q_{\text{remaining}} = Q_{\text{rated}} - Q_{\text{discharged}}
+$$
 
 For the 2000mAh battery:
 
-\[
-Q_{\text{remaining}} =
-2000 - Q_{\text{discharged}}
-\]
+$$
+Q_{\text{remaining}} = 2000 - Q_{\text{discharged}}
+$$
 
 ### C. Discharged Percentage
 
 The percentage of the rated capacity that has been discharged is calculated as:
 
-\[
+$$
 \text{Discharged Percentage} =
-\frac{Q_{\text{discharged}}}{Q_{\text{rated}}}
-\times 100
-\]
+\frac{Q_{\text{discharged}}}{Q_{\text{rated}}} \times 100
+$$
 
 ### D. State of Health (SOH)
 
 The State of Health indicates the battery's present capacity relative to its original rated capacity.
 
-\[
+$$
 SOH(\%) =
-\frac{Q_{\text{measured}}}{Q_{\text{rated}}}
-\times 100
-\]
+\frac{Q_{\text{measured}}}{Q_{\text{rated}}} \times 100
+$$
 
 Where:
-- \(Q_{\text{measured}}\) = Capacity obtained from a complete controlled discharge cycle in mAh
-- \(Q_{\text{rated}}\) = Original rated battery capacity (2000mAh)
+
+- $Q_{\text{measured}}$ = Capacity obtained from a complete controlled discharge cycle in mAh
+- $Q_{\text{rated}}$ = Original rated battery capacity (2000mAh)
 
 **Note:** An accurate SOH estimate requires a complete discharge cycle under specified test conditions. The capacity discharged during a partial cycle cannot independently determine the battery's actual SOH.
 
