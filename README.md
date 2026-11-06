@@ -55,7 +55,7 @@ An INA219 sensor is used for voltage and current measurement, while a DS18B20 te
 
 | INA219 Pin | ESP32 Connection |
 |---|---|
-| VCC | 5V |
+| VCC | 3.3V |
 | GND | GND |
 | SDA | GPIO 21 |
 | SCL | GPIO 22 |
@@ -104,41 +104,45 @@ The system operates through the following stages:
 
 ### A. Discharged Capacity
 
-The discharged capacity is calculated using current integration:
+The discharged capacity is calculated by integrating the measured discharge current over time.
 
 \[
 Q_{\text{discharged}} =
-\frac{1}{3600}\int I(t)\,dt
+\frac{1}{3600}\int_0^t I(\tau)\,d\tau
 \]
 
 For discrete measurements:
 
 \[
 Q_{\text{discharged}} =
-\sum_i \frac{I_i \times \Delta t_i}{3600}
+\sum_{i=1}^{n}
+\frac{I_i \times \Delta t_i}{3600}
 \]
 
 Where:
-
-- \(I_i\) = Measured current in mA
-- \(\Delta t_i\) = Time interval in seconds
-- \(Q\) = Capacity in mAh
+- \(I_i\) = Measured discharge current in mA
+- \(\Delta t_i\) = Time interval between measurements in seconds
+- \(Q_{\text{discharged}}\) = Discharged capacity in mAh
 
 ### B. Remaining Capacity
 
+The estimated remaining capacity is calculated by subtracting the discharged capacity from the rated battery capacity.
+
 \[
 Q_{\text{remaining}} =
-Q_{\text{rated}}-Q_{\text{discharged}}
+Q_{\text{rated}} - Q_{\text{discharged}}
 \]
 
 For the 2000mAh battery:
 
 \[
 Q_{\text{remaining}} =
-2000-Q_{\text{discharged}}
+2000 - Q_{\text{discharged}}
 \]
 
 ### C. Discharged Percentage
+
+The percentage of the rated capacity that has been discharged is calculated as:
 
 \[
 \text{Discharged Percentage} =
@@ -148,15 +152,19 @@ Q_{\text{remaining}} =
 
 ### D. State of Health (SOH)
 
+The State of Health indicates the battery's present capacity relative to its original rated capacity.
+
 \[
-SOH =
-\frac{Q_{\text{measured full discharge}}}
-{Q_{\text{rated}}}\times 100
+SOH(\%) =
+\frac{Q_{\text{measured}}}{Q_{\text{rated}}}
+\times 100
 \]
 
-SOH is determined by comparing the actual measured capacity from a complete controlled discharge cycle with the rated battery capacity.
+Where:
+- \(Q_{\text{measured}}\) = Capacity obtained from a complete controlled discharge cycle in mAh
+- \(Q_{\text{rated}}\) = Original rated battery capacity (2000mAh)
 
-A partial discharge measurement alone cannot establish the actual SOH of the battery.
+**Note:** An accurate SOH estimate requires a complete discharge cycle under specified test conditions. The capacity discharged during a partial cycle cannot independently determine the battery's actual SOH.
 
 ## 8. Output Parameters
 
@@ -180,31 +188,13 @@ The system displays the following parameters through the Arduino Serial Monitor:
 - Battery capacity estimation
 - Educational experiments in electrical measurements and instrumentation
 
-## 10. Future Improvements
-
-- OLED display for real-time monitoring.
-- Data logging for discharge characteristics.
-- Battery voltage versus time plotting.
-- Automatic cutoff at the battery's specified minimum voltage.
-- Improved SOH estimation using repeated controlled charge-discharge cycles.
-- Wireless monitoring through ESP32 Wi-Fi or Bluetooth.
-
-## 11. Safety Considerations
-
-- Avoid discharging the LiPo battery below its manufacturer's specified minimum voltage.
-- Monitor battery temperature throughout the discharge process.
-- Use a suitable protection circuit and a logic-level MOSFET.
-- Ensure the 100Ω load resistor has an adequate power rating.
-- Never leave a LiPo battery undergoing discharge unattended.
-- Verify all connections before powering the circuit.
-
-## 12. Conclusion
+## 10. Conclusion
 
 This project demonstrates the implementation of an ESP32-based LiPo battery analyser using electrical and temperature measurements. By combining voltage sensing, current integration, and temperature monitoring, the system provides useful information about battery discharge behaviour, remaining capacity, and estimated State of Health.
 
 ---
 
-**Course:** Measurement and Electronic Instrumentation (EE3L010 )
+**Course:** Measurements and Electronic Instrumentation (MEI)
 
 **Platform:** ESP32
 
