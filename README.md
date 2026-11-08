@@ -189,7 +189,7 @@ This project demonstrates the implementation of an ESP32-based LiPo battery anal
 
 ---
 
-**Course:** Measurements and Electronic Instrumentation (MEI)
+**Course:** Measurement and Electronic Instrumentation (MEI)
 
 **Platform:** ESP32
 
